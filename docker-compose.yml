@@ -1,0 +1,31 @@
+# docker-compose.yml
+version: "3.9"
+
+services:
+  slm-platform:
+    build: .
+    container_name: unicc-slm
+    ports:
+      - "8000:8000"
+    environment:
+      # ── LLM backend ─────────────────────────────────────────────────────
+      # Set LLM_BACKEND=anthropic for evaluators (no GPU needed, recommended)
+      # Set LLM_BACKEND=local for DGX deployment
+      - LLM_BACKEND=${LLM_BACKEND:-anthropic}
+
+      # ── Anthropic backend (required when LLM_BACKEND=anthropic) ─────────
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+
+      # ── HuggingFace (required when LLM_BACKEND=local) ───────────────────
+      - HF_TOKEN=${HF_TOKEN}
+      - BASE_MODEL_ID=${BASE_MODEL_ID:-meta-llama/Llama-3.2-3B-Instruct}
+
+      # ── Deliberation layer ───────────────────────────────────────────────
+      - UNICC_DELIBERATION=${UNICC_DELIBERATION:-true}
+      - UNICC_DELIBERATION_ACTIVE=${UNICC_DELIBERATION_ACTIVE:-true}
+    volumes:
+      - hf-cache:/root/.cache/huggingface   # cache model weights across restarts
+    restart: unless-stopped
+
+volumes:
+  hf-cache:
