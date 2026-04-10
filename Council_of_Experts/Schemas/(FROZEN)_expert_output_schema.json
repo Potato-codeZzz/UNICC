@@ -1,0 +1,13 @@
+{
+  "version": "v2.0",
+  "status": "Active",
+
+  "expert_name": "Governance Expert | Threat Expert | Behavioral Expert",
+  "overall_status": "Pass | Caution | Fail",
+  "risk_level": "Low | Moderate | High | Critical",
+  "recommended_action": "Approve | Revise | Escalate | Reject",
+  "requires_human_review": "boolean",
+  "confidence_level": "Low | Moderate | High",
+  "rationale_summary": "string",
+  "framework_references": ["string"]
+}
